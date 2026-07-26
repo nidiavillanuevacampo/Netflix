@@ -191,6 +191,10 @@ def controlar_inactividad():
 @app.route('/categoria/<int:genero>')
 def categoria(genero):
     peliculas = obtener_por_genero(genero)
+
+    print("Género:", genero)
+    print("Películas:", peliculas)
+
     return render_template(
         'peliculas.html',
         peliculas=peliculas

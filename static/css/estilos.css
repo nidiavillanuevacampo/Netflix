@@ -539,3 +539,13 @@ body {
 .btn-modal-cerrar:hover {
     color: #ff3131;
 }
+
+.card img{
+    height: 350px;
+    object-fit: cover;
+}
+
+.d-grid .btn{
+    margin-bottom: 10px;
+    font-weight: bold;
+}
