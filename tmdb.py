@@ -1,6 +1,6 @@
 import requests
 
-TOKEN = "TU_BEARER_TOKEN"
+TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNmY5MzhhMWZjYjE5NmNhNDE1OTA0YzhkYTgzNjlmOCIsIm5iZiI6MTc4MDExMTcwMy42OTgsInN1YiI6IjZhMWE1OTU3ZWZiOWUzYTZhMDUzMzRjZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MKufQBf9Rui2jOCvgZUcb6iZ-3dCZ1N5XmNa_3UKLPQ"
 
 HEADERS = {
     "accept": "application/json",
