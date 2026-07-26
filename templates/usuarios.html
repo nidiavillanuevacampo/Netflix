@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<div class="tabla-usuarios-container">
+
+    <button class="btn-agregar-usuario" onclick="abrirModalAgregar()">
+        Agregar Usuario
+    </button>
+    <table class="tabla-usuarios">
+        <thead>
+            <tr>
+                <th style="width: 45%;">Nombre</th>
+                <th style="width: 35%;">Usuario</th>
+                <th style="width: 20%;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in Usuarios %}
+            <tr>
+                <td>{{ usuario[1] }}</td> <!-- nombre -->
+                <td>{{ usuario[2] }}</td> <!-- usuario -->
+                <td>
+                    <button class="btn-accion-editar"
+                        onclick="abrirModalEditar('{{ usuario[0] }}', '{{ usuario[1]|escape }}', '{{ usuario[3]|escape }}', '{{ usuario[2]|escape }}', '{{ usuario[4]|escape }}')">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <a href="/usuarios/eliminar/{{ usuario[0] }}" class="btn-accion-eliminar"
+                        onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ usuario[1] }}?')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<!-- Ventana Modal Personalizada para Agregar / Editar Usuario -->
+<div id="modalUsuario" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
+    <div class="modal-container-custom" onclick="event.stopPropagation()">
+
+        <button type="button" class="btn-modal-cerrar" onclick="cerrarModal()">&times;</button>
+
+        <div class="modal-logo-circulo">
+            <img src="{{ url_for('static', filename='images/upp.png') }}" alt="UPP Logo">
+        </div>
+
+        <h3 id="modalTitulo" class="modal-titulo-custom">Agregar Usuario</h3>
+
+        <form id="modalForm" action="/usuarios/agregar" method="POST">
+
+            <div class="modal-form-group">
+                <label class="modal-label-custom" for="inputNombre">Nombre Completo</label>
+                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" required
+                    autocomplete="off">
+            </div>
+
+            <div class="modal-form-group">
+                <label class="modal-label-custom" for="inputCorreo">Correo</label>
+                <input type="email" id="inputCorreo" name="correo" class="modal-input-custom" required
+                    autocomplete="off">
+            </div>
+
+            <div class="modal-form-group">
+                <label class="modal-label-custom" for="inputUsuario">Usuario</label>
+                <input type="text" id="inputUsuario" name="usuario" class="modal-input-custom" required
+                    autocomplete="off">
+            </div>
+
+            <div class="modal-form-group">
+                <label class="modal-label-custom" for="inputPassword">Contraseña</label>
+                <input type="password" id="inputPassword" name="password" class="modal-input-custom" required>
+            </div>
+            <button type="submit" class="btn-modal-guardar">Guardar</button>
+        </form>
+    </div>
+</div>
+<script>
+    function abrirModalAgregar() {
+        const modal = document.getElementById('modalUsuario');
+        const form = document.getElementById('modalForm');
+        const titulo = document.getElementById('modalTitulo');
+
+        form.reset();
+
+        form.action = '/usuarios/agregar';
+        titulo.innerText = 'Agregar Usuario';
+
+        modal.style.display = 'flex';
+    }
+
+    function abrirModalEditar(id, nombre, correo, usuario, password) {
+        const modal = document.getElementById('modalUsuario');
+        const form = document.getElementById('modalForm');
+        const titulo = document.getElementById('modalTitulo');
+
+        form.action = '/usuarios/editar/' + id;
+        titulo.innerText = 'Editar Usuario';
+
+        document.getElementById('inputNombre').value = nombre;
+        document.getElementById('inputCorreo').value = correo;
+        document.getElementById('inputUsuario').value = usuario;
+        document.getElementById('inputPassword').value = password;
+
+        modal.style.display = 'flex';
+    }
+
+    function cerrarModal() {
+        const modal = document.getElementById('modalUsuario');
+        modal.style.display = 'none';
+    }
+
+    function cerrarModalAlClicarFuera(event) {
+        cerrarModal();
+    }
+</script>
+{% endblock %}

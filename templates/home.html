@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="contenedor-home">
+    <!-- BANNER PRINCIPAL -->
+    <div class="banner-principal">
+
+        <img src="https://image.tmdb.org/t/p/original{{ banner.backdrop_path }}" alt="{{ banner.title }}"
+            class="banner-img">
+
+        <div class="banner-info">
+
+            <h1>{{ banner.title }}</h1>
+
+            <p class="banner-descripcion">
+                {{ banner.overview }}
+            </p>
+
+            <div class="banner-botones">
+
+                <button class="btn btn-light btn-banner">
+                    ▶ Reproducir
+                </button>
+
+                <button class="btn btn-secondary btn-banner">
+                    ℹ Más información
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PELÍCULAS -->
+    <section class="mt-5">
+
+        <h3 class="titulo-seccion">
+            Recomendadas para ti
+        </h3>
+
+        <div class="row g-3">
+
+            {% for pelicula in peliculas %}
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <div class="card-pelicula">
+
+                    <img src="https://image.tmdb.org/t/p/w500{{ pelicula.poster_path }}" alt="{{ pelicula.title }}"
+                        class="img-fluid rounded poster-pelicula">
+
+                    <p class="titulo-pelicula">
+                        {{ pelicula.title }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
