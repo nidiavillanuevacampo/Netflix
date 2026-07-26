@@ -12,11 +12,11 @@ app = Flask (__name__)
 app.secret_key = "uppvideo2026"
 
 
-app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_PORT'] = 3307
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'uppvideo'
+app.config['MYSQL_HOST'] = 'sql10.freesqldatabase.com'
+app.config['MYSQL_PORT'] = 3306
+app.config['MYSQL_USER'] = 'sql10833934'
+app.config['MYSQL_PASSWORD'] = 'cJq5tmppE4'
+app.config['MYSQL_DB'] = 'sql10833934'
 mysql = MySQL(app)
 
 
