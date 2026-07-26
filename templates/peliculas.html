@@ -1,7 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h1>Peliculas</h1>
-
-<h3>El id de la pelicula es: {{ID}}</h3>
+<div class="btn-group mb-3">
+    <a class="btn btn-danger" href="/categoria/27">Terror</a>
+    <a class="btn btn-warning" href="/categoria/35">Comedia</a>
+    <a class="btn btn-primary" href="/categoria/28">Acción</a>
+    <a class="btn btn-info" href="/categoria/878">Ciencia ficción</a>
+    <a class="btn btn-success" href="/categoria/10749">Romance</a>
+</div>
 {% endblock %}

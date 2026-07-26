@@ -3,7 +3,7 @@ import hashlib
 import uuid
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
-from tmdb import obtener_populares
+from tmdb import obtener_populares, obtener_por_genero
 from flask import session
 from datetime import datetime, timedelta
 from flask import session, redirect
@@ -187,6 +187,14 @@ def controlar_inactividad():
             return redirect('/login')
 
     session['ultimo_movimiento'] = datetime.now().isoformat()
+
+@app.route('/categoria/<int:genero>')
+def categoria(genero):
+    peliculas = obtener_por_genero(genero)
+    return render_template(
+        'peliculas.html',
+        peliculas=peliculas
+    )
 
 
 if __name__ == '__main__':
