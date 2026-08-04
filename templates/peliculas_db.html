@@ -3,7 +3,7 @@
 
 <div class="crud-container">
     <div class="crud-card">
-        
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="page-title mb-0">Gestión de Películas (Base de Datos)</h2>
             <button class="btn-agregar-registro" onclick="abrirModalAgregar()">
@@ -31,16 +31,20 @@
                         <td>{{ p[0] }}</td>
                         <td>
                             {% if p[5] %}
-                            <img src="{{ p[5] }}" alt="Poster" class="rounded" style="height: 60px; width: 45px; object-fit: cover; border: 1px solid var(--border-color);">
+                            <img src="{{ p[5] }}" alt="Poster" class="rounded"
+                                style="height: 60px; width: 45px; object-fit: cover; border: 1px solid var(--border-color);">
                             {% else %}
-                            <div class="rounded bg-dark text-muted d-flex align-items-center justify-content-center" style="height: 60px; width: 45px; font-size: 10px;">Sin Foto</div>
+                            <div class="rounded bg-dark text-muted d-flex align-items-center justify-content-center"
+                                style="height: 60px; width: 45px; font-size: 10px;">Sin Foto</div>
                             {% endif %}
                         </td>
                         <td class="text-start font-weight-bold">{{ p[1] }}</td>
                         <td class="text-danger font-weight-bold">{{ p[7] or 'Sin género' }}</td>
                         <td>{{ p[3] }}</td>
                         <td>{{ p[4] }}</td>
-                        <td class="text-start text-white-50 small text-truncate-custom" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ p[2] }}">
+                        <td class="text-start text-white-50 small text-truncate-custom"
+                            style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                            title="{{ p[2] }}">
                             {{ p[2] }}
                         </td>
                         <td>
@@ -48,7 +52,8 @@
                                 onclick="abrirModalEditar('{{ p[0] }}', '{{ p[1]|escape }}', '{{ p[2]|escape }}', '{{ p[3] }}', '{{ p[4]|escape }}', '{{ p[5]|escape }}', '{{ p[6] }}')">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                            <a href="/peliculas_db/eliminar/{{ p[0] }}" class="btn-accion btn-accion-delete" title="Eliminar"
+                            <a href="/peliculas_db/eliminar/{{ p[0] }}" class="btn-accion btn-accion-delete"
+                                title="Eliminar"
                                 onclick="return confirm('¿Estás seguro de que deseas eliminar la película {{ p[1] }}?')">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
@@ -68,7 +73,6 @@
     </div>
 </div>
 
-<!-- Ventana Modal para Agregar / Editar Película -->
 <div id="modalPelicula" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
     <div class="modal-container-custom" style="width: 600px;" onclick="event.stopPropagation()">
 
@@ -81,18 +85,21 @@
             <div class="row">
                 <div class="col-md-8 modal-form-group">
                     <label class="modal-label-custom" for="inputTitulo">Título de la Película</label>
-                    <input type="text" id="inputTitulo" name="titulo" class="modal-input-custom" placeholder="Ej. El Origen" required autocomplete="off">
+                    <input type="text" id="inputTitulo" name="titulo" class="modal-input-custom"
+                        placeholder="Ej. El Origen" required autocomplete="off">
                 </div>
                 <div class="col-md-4 modal-form-group">
                     <label class="modal-label-custom" for="inputAnio">Año</label>
-                    <input type="number" id="inputAnio" name="anio" class="modal-input-custom" min="1880" max="2100" placeholder="2010" required autocomplete="off">
+                    <input type="number" id="inputAnio" name="anio" class="modal-input-custom" min="1880" max="2100"
+                        placeholder="2010" required autocomplete="off">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 modal-form-group">
                     <label class="modal-label-custom" for="inputDuracion">Duración</label>
-                    <input type="text" id="inputDuracion" name="duracion" class="modal-input-custom" placeholder="Ej. 148 min" required autocomplete="off">
+                    <input type="text" id="inputDuracion" name="duracion" class="modal-input-custom"
+                        placeholder="Ej. 148 min" required autocomplete="off">
                 </div>
                 <div class="col-md-6 modal-form-group">
                     <label class="modal-label-custom" for="inputGenero">Género</label>
@@ -107,12 +114,15 @@
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputImagenUrl">URL de la Imagen del Poster</label>
-                <input type="url" id="inputImagenUrl" name="imagen_url" class="modal-input-custom" placeholder="https://ejemplo.com/poster.jpg" autocomplete="off">
+                <input type="url" id="inputImagenUrl" name="imagen_url" class="modal-input-custom"
+                    placeholder="https://ejemplo.com/poster.jpg" autocomplete="off">
             </div>
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputSinopsis">Sinopsis / Resumen</label>
-                <textarea id="inputSinopsis" name="sinopsis" class="modal-input-custom" style="height: 100px; text-align: left; resize: none;" placeholder="Escribe un breve resumen de la trama..." required></textarea>
+                <textarea id="inputSinopsis" name="sinopsis" class="modal-input-custom"
+                    style="height: 100px; text-align: left; resize: none;"
+                    placeholder="Escribe un breve resumen de la trama..." required></textarea>
             </div>
 
             <button type="submit" class="btn-modal-guardar">Guardar Película</button>
@@ -151,13 +161,11 @@
         modal.style.display = 'flex';
     }
 
-    // Cerrar modal al clicar en la cruz
     function cerrarModal() {
         const modal = document.getElementById('modalPelicula');
         modal.style.display = 'none';
     }
 
-    // Cerrar modal al hacer clic en el fondo borroso
     function cerrarModalAlClicarFuera(event) {
         if (event.target === document.getElementById('modalPelicula')) {
             cerrarModal();

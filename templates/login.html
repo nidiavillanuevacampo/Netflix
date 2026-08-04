@@ -1,75 +1,81 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPP Video - Iniciar Sesión</title>
+    <title>UPP Video Login</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Estilos personalizados -->
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
-    <div class="login-bg">
-        <div class="login-card">
-            
-            <div class="text-center mb-4">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="UPP Video" style="max-height: 50px;">
+    <div class="container vh-100 d-flex justify-content-center align-items-center">
+
+        <div class="login-box row g-0">
+
+            <!-- Lado Izquierdo -->
+            <div class="col-md-7 left-panel">
+
+                <div class="logo">
+                    <img src="{{ url_for('static',filename='images/upp.png') }}" alt="UPP Video" class="logo">
+                </div>
+
+                <h1>Welcome Back!</h1>
+
             </div>
 
-            <h2>Iniciar Sesión</h2>
+            <!-- Lado Derecho -->
+            <div class="col-md-5 right-panel">
 
-            {% if error %}
-            <div class="alert-error">
-                <i class="fa-solid fa-triangle-exclamation me-1"></i> {{ error }}
-            </div>
-            {% endif %}
+                <h2 class="mb-5">Log in</h2>
 
-            <form action="/login" method="POST">
-                
-                <div class="mb-3">
-                    <label class="form-label text-white-50" for="username">Usuario o Correo</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-dark border-0 text-white-50">
+                <form action="/login" method="POST">
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
                             <i class="fa-solid fa-user"></i>
                         </span>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu usuario" required autocomplete="off">
+                        <input type="text" class="form-control" name="username" placeholder="Username">
                     </div>
-                </div>
 
-                <div class="mb-4">
-                    <label class="form-label text-white-50" for="password">Contraseña</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-dark border-0 text-white-50">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">
                             <i class="fa-solid fa-lock"></i>
                         </span>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+
+                        <input type="password" class="form-control" name="password" placeholder="Password">
                     </div>
-                </div>
 
-                <div class="d-flex justify-content-between text-white-50 small mb-4">
-                    <div>
-                        <input type="checkbox" id="remember" class="form-check-input bg-dark border-0">
-                        <label class="form-check-label ms-1" for="remember">Recuérdame</label>
+                    <div class="d-flex justify-content-between small mb-4">
+                        <div>
+                            <input type="checkbox">
+                            Remember Me
+                        </div>
+
+                        <a href="#" class="text-decoration-none">
+                            Forgot Password?
+                        </a>
                     </div>
-                    <a href="#" class="text-white-50 text-decoration-none hover-white">¿Necesitas ayuda?</a>
-                </div>
 
-                <button type="submit" class="btn btn-primary-netflix">
-                    Iniciar Sesión
-                </button>
-            </form>
+                    <button class="btn btn-dark w-100 mb-3">
+                        Log in
+                    </button>
 
-            <div class="login-footer-text">
-                ¿Primera vez en UPP Video? <a href="#">Suscríbete ahora</a>.
+                    <div class="text-center mb-3">
+                        Or
+                    </div>
+
+                    <button type="button" class="btn btn-light border w-100">
+                        Sign up
+                    </button>
+                </form>
             </div>
-
         </div>
     </div>
 

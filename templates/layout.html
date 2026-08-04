@@ -6,17 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UPP Video - Netflix Clone</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Custom styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
 </head>
 
 <body>
 
-    <!-- BARRA SUPERIOR -->
     <header class="barra-superior">
         <a href="/home">
             <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img" alt="UPP Video Logo">
@@ -30,25 +26,27 @@
         {% endif %}
     </header>
 
-    <!-- CONTENIDO DE CADA PAGINA -->
     <main>
         {% block content %}
         {% endblock %}
     </main>
 
-    <!-- MENU FOOTER GLOBAL -->
     {% if session.get('id_usuario') %}
     <footer class="footer-menu">
         <a href="/home" class="{% if request.path == '/home' %}active{% endif %}">
-            <i class="fa-solid fa-house me-1"></i> Inicio (TMDB)
+            <i class="fa-solid fa-house me-1"></i> Inicio
         </a>
 
         <a href="/peliculas_db" class="{% if request.path.startswith('/peliculas_db') %}active{% endif %}">
-            <i class="fa-solid fa-film me-1"></i> Películas DB
+            <i class="fa-solid fa-film me-1"></i> Películas
+        </a>
+
+        <a href="/peliculas" class="{% if request.path.startswith('/peliculas') %}active{% endif %}">
+            <i class="fa-solid fa-film me-1"></i> Categorías
         </a>
 
         <a href="/generos" class="{% if request.path.startswith('/generos') %}active{% endif %}">
-            <i class="fa-solid fa-tags me-1"></i> Géneros
+            <i class="fa-solid fa-tags me-1"></i> Agregar Géneros
         </a>
 
         <a href="/planes" class="{% if request.path.startswith('/planes') %}active{% endif %}">

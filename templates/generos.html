@@ -3,7 +3,7 @@
 
 <div class="crud-container">
     <div class="crud-card">
-        
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="page-title mb-0">Gestión de Géneros</h2>
             <button class="btn-agregar-registro" onclick="abrirModalAgregar()">
@@ -32,7 +32,8 @@
                                 onclick="abrirModalEditar('{{ genero[0] }}', '{{ genero[1]|escape }}', '{{ genero[2]|escape }}')">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                            <a href="/generos/eliminar/{{ genero[0] }}" class="btn-accion btn-accion-delete" title="Eliminar"
+                            <a href="/generos/eliminar/{{ genero[0] }}" class="btn-accion btn-accion-delete"
+                                title="Eliminar"
                                 onclick="return confirm('¿Estás seguro de que deseas eliminar el género {{ genero[1] }}?')">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
@@ -64,12 +65,15 @@
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputNombre">Nombre del Género</label>
-                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" placeholder="Ej. Ciencia Ficción" required autocomplete="off">
+                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom"
+                    placeholder="Ej. Ciencia Ficción" required autocomplete="off">
             </div>
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputDescripcion">Descripción</label>
-                <textarea id="inputDescripcion" name="descripcion" class="modal-input-custom" style="height: 120px; text-align: left; resize: none;" placeholder="Breve descripción del género..." required></textarea>
+                <textarea id="inputDescripcion" name="descripcion" class="modal-input-custom"
+                    style="height: 120px; text-align: left; resize: none;" placeholder="Breve descripción del género..."
+                    required></textarea>
             </div>
 
             <button type="submit" class="btn-modal-guardar">Guardar Datos</button>

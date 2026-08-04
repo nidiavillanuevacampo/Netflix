@@ -3,7 +3,7 @@
 
 <div class="crud-container">
     <div class="crud-card">
-        
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="page-title mb-0">Gestión de Planes de Suscripción</h2>
             <button class="btn-agregar-registro" onclick="abrirModalAgregar()">
@@ -36,7 +36,8 @@
                                 onclick="abrirModalEditar('{{ plan[0] }}', '{{ plan[1]|escape }}', '{{ plan[2] }}', '{{ plan[3]|escape }}', '{{ plan[4] }}')">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                            <a href="/planes/eliminar/{{ plan[0] }}" class="btn-accion btn-accion-delete" title="Eliminar"
+                            <a href="/planes/eliminar/{{ plan[0] }}" class="btn-accion btn-accion-delete"
+                                title="Eliminar"
                                 onclick="return confirm('¿Estás seguro de que deseas eliminar el plan {{ plan[1] }}?')">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
@@ -68,12 +69,14 @@
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputNombre">Nombre del Plan</label>
-                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" placeholder="Ej. Premium" required autocomplete="off">
+                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" placeholder="Ej. Premium"
+                    required autocomplete="off">
             </div>
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputPrecio">Precio Mensual (MXN)</label>
-                <input type="number" step="0.01" id="inputPrecio" name="precio" class="modal-input-custom" placeholder="0.00" required autocomplete="off">
+                <input type="number" step="0.01" id="inputPrecio" name="precio" class="modal-input-custom"
+                    placeholder="0.00" required autocomplete="off">
             </div>
 
             <div class="modal-form-group">
@@ -88,7 +91,8 @@
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputPantallas">Pantallas Simultáneas</label>
-                <input type="number" id="inputPantallas" name="pantallas" class="modal-input-custom" min="1" max="10" placeholder="Ej. 4" required autocomplete="off">
+                <input type="number" id="inputPantallas" name="pantallas" class="modal-input-custom" min="1" max="10"
+                    placeholder="Ej. 4" required autocomplete="off">
             </div>
 
             <button type="submit" class="btn-modal-guardar">Guardar Datos</button>

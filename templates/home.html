@@ -3,11 +3,11 @@
 {% block content %}
 
 <div class="contenedor-home">
-    
-    <!-- BANNER PRINCIPAL -->
+
     {% if banner %}
     <div class="banner-principal">
-        <img src="https://image.tmdb.org/t/p/original{{ banner.backdrop_path }}" alt="{{ banner.title }}" class="banner-img">
+        <img src="https://image.tmdb.org/t/p/original{{ banner.backdrop_path }}" alt="{{ banner.title }}"
+            class="banner-img">
         <div class="banner-info">
             <h1>{{ banner.title }}</h1>
             <p class="banner-descripcion">
@@ -25,10 +25,9 @@
     </div>
     {% endif %}
 
-    <!-- NUESTRO CATÁLOGO LOCAL (DATABASE) -->
     <section class="mt-5">
         <h3 class="titulo-seccion">
-            <i class="fa-solid fa-database text-danger me-2"></i> Exclusivos de Nuestro Catálogo (Base de Datos)
+            <i class="fa-solid fa-database text-danger me-2"></i> Exclusivos de Nuestro Catálogo
         </h3>
 
         <div class="row g-4">
@@ -39,7 +38,8 @@
                         {% if pelicula[5] %}
                         <img src="{{ pelicula[5] }}" alt="{{ pelicula[1] }}" class="img-fluid">
                         {% else %}
-                        <div class="h-100 w-100 bg-dark d-flex align-items-center justify-content-center text-muted" style="font-size: 14px;">
+                        <div class="h-100 w-100 bg-dark d-flex align-items-center justify-content-center text-muted"
+                            style="font-size: 14px;">
                             Sin Poster
                         </div>
                         {% endif %}
@@ -53,16 +53,16 @@
             </div>
             {% else %}
             <div class="col-12 text-center py-4">
-                <p class="text-muted">No hay películas registradas en el catálogo local. Visita la pestaña "Películas DB" para agregar una.</p>
+                <p class="text-muted">No hay películas registradas en el catálogo local. Visita la pestaña "Películas"
+                    para agregar una.</p>
             </div>
             {% endfor %}
         </div>
     </section>
 
-    <!-- RECOMENDACIONES GLOBALES (TMDB) -->
     <section class="mt-5 pt-4">
         <h3 class="titulo-seccion">
-            <i class="fa-solid fa-fire text-danger me-2"></i> Tendencias Globales (TMDB)
+            <i class="fa-solid fa-fire text-danger me-2"></i> Películas Populares
         </h3>
 
         <div class="row g-3">
@@ -70,9 +70,11 @@
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card-pelicula">
                     {% if pelicula.poster_path %}
-                    <img src="https://image.tmdb.org/t/p/w500{{ pelicula.poster_path }}" alt="{{ pelicula.title }}" class="img-fluid rounded poster-pelicula">
+                    <img src="https://image.tmdb.org/t/p/w500{{ pelicula.poster_path }}" alt="{{ pelicula.title }}"
+                        class="img-fluid rounded poster-pelicula">
                     {% else %}
-                    <div class="h-100 w-100 bg-dark d-flex align-items-center justify-content-center text-muted" style="height: 280px; font-size: 12px;">Sin Poster</div>
+                    <div class="h-100 w-100 bg-dark d-flex align-items-center justify-content-center text-muted"
+                        style="height: 280px; font-size: 12px;">Sin Poster</div>
                     {% endif %}
                     <p class="titulo-pelicula">
                         {{ pelicula.title }}
