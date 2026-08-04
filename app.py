@@ -14,9 +14,9 @@ app.secret_key = "uppvideo2026"
 
 app.config['MYSQL_HOST'] = 'sql10.freesqldatabase.com'
 app.config['MYSQL_PORT'] = 3306
-app.config['MYSQL_USER'] = 'sql10833934'
-app.config['MYSQL_PASSWORD'] = 'cJq5tmppE4'
-app.config['MYSQL_DB'] = 'sql10833934'
+app.config['MYSQL_USER'] = 'sql10834549'
+app.config['MYSQL_PASSWORD'] = 'f2Pmwc9SWY'
+app.config['MYSQL_DB'] = 'sql10834549'
 mysql = MySQL(app)
 
 
@@ -463,7 +463,6 @@ def controlar_inactividad():
             session.clear()
             return redirect('/login')
 
-    # Validar que el token de sesión exista en la base de datos
     if 'token' in session:
         try:
             cur = mysql.connection.cursor()
