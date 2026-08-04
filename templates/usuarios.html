@@ -1,48 +1,64 @@
 {% extends "layout.html" %}
 {% block content %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<div class="tabla-usuarios-container">
 
-    <button class="btn-agregar-usuario" onclick="abrirModalAgregar()">
-        Agregar Usuario
-    </button>
-    <table class="tabla-usuarios">
-        <thead>
-            <tr>
-                <th style="width: 45%;">Nombre</th>
-                <th style="width: 35%;">Usuario</th>
-                <th style="width: 20%;">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for usuario in Usuarios %}
-            <tr>
-                <td>{{ usuario[1] }}</td> <!-- nombre -->
-                <td>{{ usuario[2] }}</td> <!-- usuario -->
-                <td>
-                    <button class="btn-accion-editar"
-                        onclick="abrirModalEditar('{{ usuario[0] }}', '{{ usuario[1]|escape }}', '{{ usuario[3]|escape }}', '{{ usuario[2]|escape }}', '{{ usuario[4]|escape }}')">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                    <a href="/usuarios/eliminar/{{ usuario[0] }}" class="btn-accion-eliminar"
-                        onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ usuario[1] }}?')">
-                        <i class="fa-solid fa-xmark"></i>
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="crud-container">
+    <div class="crud-card">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="page-title mb-0">Gestión de Usuarios</h2>
+            <button class="btn-agregar-registro" onclick="abrirModalAgregar()">
+                <i class="fa-solid fa-user-plus"></i> Agregar Usuario
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="tabla-custom">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">ID</th>
+                        <th style="width: 30%;">Nombre Completo</th>
+                        <th style="width: 25%;">Usuario</th>
+                        <th style="width: 25%;">Correo Electrónico</th>
+                        <th style="width: 10%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in Usuarios %}
+                    <tr>
+                        <td>{{ usuario[0] }}</td>
+                        <td class="text-start font-weight-bold">{{ usuario[1] }}</td>
+                        <td>{{ usuario[2] }}</td>
+                        <td>{{ usuario[3] }}</td>
+                        <td>
+                            <button class="btn-accion btn-accion-edit" title="Editar"
+                                onclick="abrirModalEditar('{{ usuario[0] }}', '{{ usuario[1]|escape }}', '{{ usuario[3]|escape }}', '{{ usuario[2]|escape }}', '{{ usuario[4]|escape }}')">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <a href="/usuarios/eliminar/{{ usuario[0] }}" class="btn-accion btn-accion-delete" title="Eliminar"
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ usuario[1] }}?')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            No hay usuarios registrados.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 </div>
-<!-- Ventana Modal Personalizada para Agregar / Editar Usuario -->
+
+<!-- Ventana Modal para Agregar / Editar Usuario -->
 <div id="modalUsuario" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
     <div class="modal-container-custom" onclick="event.stopPropagation()">
 
         <button type="button" class="btn-modal-cerrar" onclick="cerrarModal()">&times;</button>
-
-        <div class="modal-logo-circulo">
-            <img src="{{ url_for('static', filename='images/upp.png') }}" alt="UPP Logo">
-        </div>
 
         <h3 id="modalTitulo" class="modal-titulo-custom">Agregar Usuario</h3>
 
@@ -50,30 +66,29 @@
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputNombre">Nombre Completo</label>
-                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" required
-                    autocomplete="off">
+                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" placeholder="Nombre completo" required autocomplete="off">
             </div>
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputCorreo">Correo</label>
-                <input type="email" id="inputCorreo" name="correo" class="modal-input-custom" required
-                    autocomplete="off">
+                <label class="modal-label-custom" for="inputCorreo">Correo Electrónico</label>
+                <input type="email" id="inputCorreo" name="correo" class="modal-input-custom" placeholder="correo@ejemplo.com" required autocomplete="off">
             </div>
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputUsuario">Usuario</label>
-                <input type="text" id="inputUsuario" name="usuario" class="modal-input-custom" required
-                    autocomplete="off">
+                <label class="modal-label-custom" for="inputUsuario">Usuario de Acceso</label>
+                <input type="text" id="inputUsuario" name="usuario" class="modal-input-custom" placeholder="Nombre de usuario" required autocomplete="off">
             </div>
 
             <div class="modal-form-group">
                 <label class="modal-label-custom" for="inputPassword">Contraseña</label>
-                <input type="password" id="inputPassword" name="password" class="modal-input-custom" required>
+                <input type="password" id="inputPassword" name="password" class="modal-input-custom" placeholder="Mínimo 4 caracteres" required>
             </div>
-            <button type="submit" class="btn-modal-guardar">Guardar</button>
+
+            <button type="submit" class="btn-modal-guardar">Guardar Datos</button>
         </form>
     </div>
 </div>
+
 <script>
     function abrirModalAgregar() {
         const modal = document.getElementById('modalUsuario');
@@ -81,7 +96,6 @@
         const titulo = document.getElementById('modalTitulo');
 
         form.reset();
-
         form.action = '/usuarios/agregar';
         titulo.innerText = 'Agregar Usuario';
 
@@ -110,7 +124,9 @@
     }
 
     function cerrarModalAlClicarFuera(event) {
-        cerrarModal();
+        if (event.target === document.getElementById('modalUsuario')) {
+            cerrarModal();
+        }
     }
 </script>
 {% endblock %}

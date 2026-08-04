@@ -540,12 +540,12 @@ body {
     color: #ff3131;
 }
 
-.card img{
+.card img {
     height: 350px;
     object-fit: cover;
 }
 
-.d-grid .btn{
+.d-grid .btn {
     margin-bottom: 10px;
     font-weight: bold;
 }

@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="crud-container">
+    <div class="crud-card">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="page-title mb-0">Gestión de Géneros</h2>
+            <button class="btn-agregar-registro" onclick="abrirModalAgregar()">
+                <i class="fa-solid fa-tags"></i> Agregar Género
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="tabla-custom">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">ID</th>
+                        <th style="width: 30%;">Nombre del Género</th>
+                        <th style="width: 50%;">Descripción</th>
+                        <th style="width: 10%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for genero in Generos %}
+                    <tr>
+                        <td>{{ genero[0] }}</td>
+                        <td class="text-start font-weight-bold text-danger">{{ genero[1] }}</td>
+                        <td class="text-start text-white-50">{{ genero[2] }}</td>
+                        <td>
+                            <button class="btn-accion btn-accion-edit" title="Editar"
+                                onclick="abrirModalEditar('{{ genero[0] }}', '{{ genero[1]|escape }}', '{{ genero[2]|escape }}')">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <a href="/generos/eliminar/{{ genero[0] }}" class="btn-accion btn-accion-delete" title="Eliminar"
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar el género {{ genero[1] }}?')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            No hay géneros registrados.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- Ventana Modal para Agregar / Editar Género -->
+<div id="modalGenero" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
+    <div class="modal-container-custom" onclick="event.stopPropagation()">
+
+        <button type="button" class="btn-modal-cerrar" onclick="cerrarModal()">&times;</button>
+
+        <h3 id="modalTitulo" class="modal-titulo-custom">Agregar Género</h3>
+
+        <form id="modalForm" action="/generos/agregar" method="POST">
+
+            <div class="modal-form-group">
+                <label class="modal-label-custom" for="inputNombre">Nombre del Género</label>
+                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" placeholder="Ej. Ciencia Ficción" required autocomplete="off">
+            </div>
+
+            <div class="modal-form-group">
+                <label class="modal-label-custom" for="inputDescripcion">Descripción</label>
+                <textarea id="inputDescripcion" name="descripcion" class="modal-input-custom" style="height: 120px; text-align: left; resize: none;" placeholder="Breve descripción del género..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-modal-guardar">Guardar Datos</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function abrirModalAgregar() {
+        const modal = document.getElementById('modalGenero');
+        const form = document.getElementById('modalForm');
+        const titulo = document.getElementById('modalTitulo');
+
+        form.reset();
+        form.action = '/generos/agregar';
+        titulo.innerText = 'Agregar Género';
+
+        modal.style.display = 'flex';
+    }
+
+    function abrirModalEditar(id, nombre, descripcion) {
+        const modal = document.getElementById('modalGenero');
+        const form = document.getElementById('modalForm');
+        const titulo = document.getElementById('modalTitulo');
+
+        form.action = '/generos/editar/' + id;
+        titulo.innerText = 'Editar Género';
+
+        document.getElementById('inputNombre').value = nombre;
+        document.getElementById('inputDescripcion').value = descripcion;
+
+        modal.style.display = 'flex';
+    }
+
+    function cerrarModal() {
+        const modal = document.getElementById('modalGenero');
+        modal.style.display = 'none';
+    }
+
+    function cerrarModalAlClicarFuera(event) {
+        if (event.target === document.getElementById('modalGenero')) {
+            cerrarModal();
+        }
+    }
+</script>
+{% endblock %}

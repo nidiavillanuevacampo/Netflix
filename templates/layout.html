@@ -3,10 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>UPP Video</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPP Video - Netflix Clone</title>
 
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
 </head>
 
@@ -14,13 +18,16 @@
 
     <!-- BARRA SUPERIOR -->
     <header class="barra-superior">
+        <a href="/home">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img" alt="UPP Video Logo">
+        </a>
 
-        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo-img">
-
+        {% if session.get('nombre') %}
         <div class="usuario-logueado">
+            <i class="fa-solid fa-user-circle me-1"></i>
             {{ session['nombre'] }}
         </div>
-
+        {% endif %}
     </header>
 
     <!-- CONTENIDO DE CADA PAGINA -->
@@ -29,26 +36,37 @@
         {% endblock %}
     </main>
 
-    <!-- MENU -->
+    <!-- MENU FOOTER GLOBAL -->
+    {% if session.get('id_usuario') %}
     <footer class="footer-menu">
-
-        <a href="/home" class="menu-btn active">
-            Inicio
+        <a href="/home" class="{% if request.path == '/home' %}active{% endif %}">
+            <i class="fa-solid fa-house me-1"></i> Inicio (TMDB)
         </a>
 
-        <a href="/peliculas/1" class="menu-btn">
-            Películas
+        <a href="/peliculas_db" class="{% if request.path.startswith('/peliculas_db') %}active{% endif %}">
+            <i class="fa-solid fa-film me-1"></i> Películas DB
         </a>
 
-        <a href="/usuarios" class="menu-btn">
-            Usuarios
+        <a href="/generos" class="{% if request.path.startswith('/generos') %}active{% endif %}">
+            <i class="fa-solid fa-tags me-1"></i> Géneros
         </a>
 
-        <a href="{{ url_for('logout') }}" class="menu-btn">
-            Salir
+        <a href="/planes" class="{% if request.path.startswith('/planes') %}active{% endif %}">
+            <i class="fa-solid fa-credit-card me-1"></i> Planes
+        </a>
+
+        <a href="/usuarios" class="{% if request.path.startswith('/usuarios') %}active{% endif %}">
+            <i class="fa-solid fa-users me-1"></i> Usuarios
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            <i class="fa-solid fa-right-from-bracket me-1"></i> Salir
         </a>
     </footer>
+    {% endif %}
 
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

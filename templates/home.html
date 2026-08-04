@@ -3,66 +3,84 @@
 {% block content %}
 
 <div class="contenedor-home">
+    
     <!-- BANNER PRINCIPAL -->
+    {% if banner %}
     <div class="banner-principal">
-
-        <img src="https://image.tmdb.org/t/p/original{{ banner.backdrop_path }}" alt="{{ banner.title }}"
-            class="banner-img">
-
+        <img src="https://image.tmdb.org/t/p/original{{ banner.backdrop_path }}" alt="{{ banner.title }}" class="banner-img">
         <div class="banner-info">
-
             <h1>{{ banner.title }}</h1>
-
             <p class="banner-descripcion">
                 {{ banner.overview }}
             </p>
-
             <div class="banner-botones">
-
-                <button class="btn btn-light btn-banner">
-                    ▶ Reproducir
+                <button class="btn btn-banner btn-banner-play">
+                    <i class="fa-solid fa-play me-1"></i> Reproducir
                 </button>
-
-                <button class="btn btn-secondary btn-banner">
-                    ℹ Más información
+                <button class="btn btn-banner btn-banner-info">
+                    <i class="fa-solid fa-circle-info me-1"></i> Más información
                 </button>
-
             </div>
-
         </div>
-
     </div>
+    {% endif %}
 
-    <!-- PELÍCULAS -->
+    <!-- NUESTRO CATÁLOGO LOCAL (DATABASE) -->
     <section class="mt-5">
-
         <h3 class="titulo-seccion">
-            Recomendadas para ti
+            <i class="fa-solid fa-database text-danger me-2"></i> Exclusivos de Nuestro Catálogo (Base de Datos)
+        </h3>
+
+        <div class="row g-4">
+            {% for pelicula in peliculas_locales %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card-pelicula">
+                    <div class="movie-poster-container">
+                        {% if pelicula[5] %}
+                        <img src="{{ pelicula[5] }}" alt="{{ pelicula[1] }}" class="img-fluid">
+                        {% else %}
+                        <div class="h-100 w-100 bg-dark d-flex align-items-center justify-content-center text-muted" style="font-size: 14px;">
+                            Sin Poster
+                        </div>
+                        {% endif %}
+                        <div class="movie-info-overlay">
+                            <span class="movie-meta-badge">{{ pelicula[6] or 'General' }}</span>
+                            <h6>{{ pelicula[1] }}</h6>
+                            <p class="small text-white-50 mb-0">{{ pelicula[3] }} • {{ pelicula[4] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center py-4">
+                <p class="text-muted">No hay películas registradas en el catálogo local. Visita la pestaña "Películas DB" para agregar una.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- RECOMENDACIONES GLOBALES (TMDB) -->
+    <section class="mt-5 pt-4">
+        <h3 class="titulo-seccion">
+            <i class="fa-solid fa-fire text-danger me-2"></i> Tendencias Globales (TMDB)
         </h3>
 
         <div class="row g-3">
-
             {% for pelicula in peliculas %}
-
             <div class="col-6 col-md-4 col-lg-2">
-
                 <div class="card-pelicula">
-
-                    <img src="https://image.tmdb.org/t/p/w500{{ pelicula.poster_path }}" alt="{{ pelicula.title }}"
-                        class="img-fluid rounded poster-pelicula">
-
+                    {% if pelicula.poster_path %}
+                    <img src="https://image.tmdb.org/t/p/w500{{ pelicula.poster_path }}" alt="{{ pelicula.title }}" class="img-fluid rounded poster-pelicula">
+                    {% else %}
+                    <div class="h-100 w-100 bg-dark d-flex align-items-center justify-content-center text-muted" style="height: 280px; font-size: 12px;">Sin Poster</div>
+                    {% endif %}
                     <p class="titulo-pelicula">
                         {{ pelicula.title }}
                     </p>
-
                 </div>
-
             </div>
-
             {% endfor %}
-
         </div>
-
     </section>
 
 </div>

@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="crud-container">
+    <div class="crud-card">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="page-title mb-0">Gestión de Películas (Base de Datos)</h2>
+            <button class="btn-agregar-registro" onclick="abrirModalAgregar()">
+                <i class="fa-solid fa-square-plus"></i> Agregar Película
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="tabla-custom">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">ID</th>
+                        <th style="width: 10%;">Poster</th>
+                        <th style="width: 25%;">Título</th>
+                        <th style="width: 15%;">Género</th>
+                        <th style="width: 8%;">Año</th>
+                        <th style="width: 10%;">Duración</th>
+                        <th style="width: 17%;">Sinopsis</th>
+                        <th style="width: 10%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in Peliculas %}
+                    <tr>
+                        <td>{{ p[0] }}</td>
+                        <td>
+                            {% if p[5] %}
+                            <img src="{{ p[5] }}" alt="Poster" class="rounded" style="height: 60px; width: 45px; object-fit: cover; border: 1px solid var(--border-color);">
+                            {% else %}
+                            <div class="rounded bg-dark text-muted d-flex align-items-center justify-content-center" style="height: 60px; width: 45px; font-size: 10px;">Sin Foto</div>
+                            {% endif %}
+                        </td>
+                        <td class="text-start font-weight-bold">{{ p[1] }}</td>
+                        <td class="text-danger font-weight-bold">{{ p[7] or 'Sin género' }}</td>
+                        <td>{{ p[3] }}</td>
+                        <td>{{ p[4] }}</td>
+                        <td class="text-start text-white-50 small text-truncate-custom" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ p[2] }}">
+                            {{ p[2] }}
+                        </td>
+                        <td>
+                            <button class="btn-accion btn-accion-edit" title="Editar"
+                                onclick="abrirModalEditar('{{ p[0] }}', '{{ p[1]|escape }}', '{{ p[2]|escape }}', '{{ p[3] }}', '{{ p[4]|escape }}', '{{ p[5]|escape }}', '{{ p[6] }}')">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <a href="/peliculas_db/eliminar/{{ p[0] }}" class="btn-accion btn-accion-delete" title="Eliminar"
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar la película {{ p[1] }}?')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                            No hay películas registradas en la base de datos.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- Ventana Modal para Agregar / Editar Película -->
+<div id="modalPelicula" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
+    <div class="modal-container-custom" style="width: 600px;" onclick="event.stopPropagation()">
+
+        <button type="button" class="btn-modal-cerrar" onclick="cerrarModal()">&times;</button>
+
+        <h3 id="modalTitulo" class="modal-titulo-custom">Agregar Película</h3>
+
+        <form id="modalForm" action="/peliculas_db/agregar" method="POST">
+
+            <div class="row">
+                <div class="col-md-8 modal-form-group">
+                    <label class="modal-label-custom" for="inputTitulo">Título de la Película</label>
+                    <input type="text" id="inputTitulo" name="titulo" class="modal-input-custom" placeholder="Ej. El Origen" required autocomplete="off">
+                </div>
+                <div class="col-md-4 modal-form-group">
+                    <label class="modal-label-custom" for="inputAnio">Año</label>
+                    <input type="number" id="inputAnio" name="anio" class="modal-input-custom" min="1880" max="2100" placeholder="2010" required autocomplete="off">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 modal-form-group">
+                    <label class="modal-label-custom" for="inputDuracion">Duración</label>
+                    <input type="text" id="inputDuracion" name="duracion" class="modal-input-custom" placeholder="Ej. 148 min" required autocomplete="off">
+                </div>
+                <div class="col-md-6 modal-form-group">
+                    <label class="modal-label-custom" for="inputGenero">Género</label>
+                    <select id="inputGenero" name="idGenero" class="modal-input-custom" required>
+                        <option value="" disabled selected>Selecciona un género</option>
+                        {% for g in Generos %}
+                        <option value="{{ g[0] }}">{{ g[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-form-group">
+                <label class="modal-label-custom" for="inputImagenUrl">URL de la Imagen del Poster</label>
+                <input type="url" id="inputImagenUrl" name="imagen_url" class="modal-input-custom" placeholder="https://ejemplo.com/poster.jpg" autocomplete="off">
+            </div>
+
+            <div class="modal-form-group">
+                <label class="modal-label-custom" for="inputSinopsis">Sinopsis / Resumen</label>
+                <textarea id="inputSinopsis" name="sinopsis" class="modal-input-custom" style="height: 100px; text-align: left; resize: none;" placeholder="Escribe un breve resumen de la trama..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-modal-guardar">Guardar Película</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function abrirModalAgregar() {
+        const modal = document.getElementById('modalPelicula');
+        const form = document.getElementById('modalForm');
+        const titulo = document.getElementById('modalTitulo');
+
+        form.reset();
+        form.action = '/peliculas_db/agregar';
+        titulo.innerText = 'Agregar Película';
+
+        modal.style.display = 'flex';
+    }
+
+    function abrirModalEditar(id, titulo, sinopsis, anio, duracion, imagen_url, idGenero) {
+        const modal = document.getElementById('modalPelicula');
+        const form = document.getElementById('modalForm');
+        const modalTitulo = document.getElementById('modalTitulo');
+
+        form.action = '/peliculas_db/editar/' + id;
+        modalTitulo.innerText = 'Editar Película';
+
+        document.getElementById('inputTitulo').value = titulo;
+        document.getElementById('inputSinopsis').value = sinopsis;
+        document.getElementById('inputAnio').value = anio;
+        document.getElementById('inputDuracion').value = duracion;
+        document.getElementById('inputImagenUrl').value = imagen_url;
+        document.getElementById('inputGenero').value = idGenero || "";
+
+        modal.style.display = 'flex';
+    }
+
+    // Cerrar modal al clicar en la cruz
+    function cerrarModal() {
+        const modal = document.getElementById('modalPelicula');
+        modal.style.display = 'none';
+    }
+
+    // Cerrar modal al hacer clic en el fondo borroso
+    function cerrarModalAlClicarFuera(event) {
+        if (event.target === document.getElementById('modalPelicula')) {
+            cerrarModal();
+        }
+    }
+</script>
+{% endblock %}
