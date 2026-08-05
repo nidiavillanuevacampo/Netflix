@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{ genero[0] }}</td>
                     <td class="text-start font-weight-bold text-danger">{{ genero[1] }}</td>
-                    <td class="text-start text-white-50">{{ genero[2] }}</td>
+                    <td class="text-start" style="color:#000000">{{ genero[2] }}</td>
                     <td>
                         <button class="btn-accion btn-accion-edit" title="Editar"
                             onclick="abrirModalEditar('{{ genero[0] }}', '{{ genero[1]|escape }}', '{{ genero[2]|escape }}')">
@@ -50,7 +50,6 @@
     </div>
 </div>
 
-<!-- Ventana Modal para Agregar / Editar Género -->
 <div id="modalGenero" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
     <div class="modal-container-custom" onclick="event.stopPropagation()">
 
