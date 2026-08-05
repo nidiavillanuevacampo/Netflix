@@ -522,7 +522,6 @@ body {
     transform: scale(1.02);
 }
 
-/* Botón cerrar modal */
 .btn-modal-cerrar {
     position: absolute;
     top: 15px;
