@@ -83,10 +83,8 @@ def login():
             session["token"] = token
             session["ultimo_movimiento"] = fecha.isoformat()    
 
-            # Limpiar tokens anteriores para este usuario
             cur.execute("DELETE FROM token WHERE idUsuario = %s", (usuario[0],))
             
-            # Insertar el nuevo token
             cur.execute(
                 """
                 INSERT INTO token (idUsuario, cToken, dFecha)
@@ -255,67 +253,73 @@ def planes():
     cur.close()
     return render_template("planes.html", Planes=data)
 
+from datetime import datetime
 
-@app.route('/planes/agregar', methods=['POST'])
-def agregar_plan():
+@app.route('/suscripcion/agregar', methods=['POST'])
+def agregar_suscripcion():
+
     if 'id_usuario' not in session:
         return redirect('/login')
+
+    idUsuario = session['id_usuario']
+
+    idPlan = request.form.get('idPlan')
     nombre = request.form.get('nombre')
-    precio = request.form.get('precio')
-    calidad = request.form.get('calidad')
-    pantallas = request.form.get('pantallas')
-    
+    correo = request.form.get('correo')
+    telefono = request.form.get('telefono')
+    metodo = request.form.get('metodo')
+
+    fecha = datetime.now()
+
     cur = mysql.connection.cursor()
+
     try:
-        cur.execute(
-            "INSERT INTO planes (nombre, precio, calidad, pantallas) VALUES (%s, %s, %s, %s)",
-            (nombre, precio, calidad, pantallas)
+
+        cur.execute("""
+        INSERT INTO suscripciones
+        (
+            idUsuario,
+            idPlan,
+            nombre,
+            correo,
+            telefono,
+            metodoPago,
+            fecha
         )
-        mysql.connection.commit()
-    except Exception as e:
-        print("Error al agregar plan:", e)
-    finally:
-        cur.close()
-    return redirect('/planes')
 
-
-@app.route('/planes/editar/<int:id>', methods=['POST'])
-def editar_plan(id):
-    if 'id_usuario' not in session:
-        return redirect('/login')
-    nombre = request.form.get('nombre')
-    precio = request.form.get('precio')
-    calidad = request.form.get('calidad')
-    pantallas = request.form.get('pantallas')
-    
-    cur = mysql.connection.cursor()
-    try:
-        cur.execute(
-            "UPDATE planes SET nombre = %s, precio = %s, calidad = %s, pantallas = %s WHERE idPlan = %s",
-            (nombre, precio, calidad, pantallas, id)
+        VALUES
+        (
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s
         )
+        """,
+
+        (
+            idUsuario,
+            idPlan,
+            nombre,
+            correo,
+            telefono,
+            metodo,
+            fecha
+        ))
+
         mysql.connection.commit()
+
     except Exception as e:
-        print("Error al editar plan:", e)
+
+        print(e)
+
     finally:
+
         cur.close()
+
     return redirect('/planes')
-
-
-@app.route('/planes/eliminar/<int:id>')
-def eliminar_plan(id):
-    if 'id_usuario' not in session:
-        return redirect('/login')
-    cur = mysql.connection.cursor()
-    try:
-        cur.execute("DELETE FROM planes WHERE idPlan = %s", (id,))
-        mysql.connection.commit()
-    except Exception as e:
-        print("Error al eliminar plan:", e)
-    finally:
-        cur.close()
-    return redirect('/planes')
-
 
 @app.route('/peliculas_db')
 def peliculas_db():
@@ -420,6 +424,18 @@ def eliminar_pelicula_db(id):
 def peliculas(id):
     return render_template('peliculas.html', ID= id)
 
+@app.route('/categoria/<int:genero>')
+def categoria(genero):
+    peliculas = obtener_por_genero(genero)
+
+    print("Género:", genero)
+    print("Películas:", peliculas)
+
+    return render_template(
+        'peliculas.html',
+        peliculas=peliculas
+    )
+
 @app.route('/ajax', methods=['GET', 'POST'])
 def ajax():
     return '{"result"}:"20"'
@@ -488,7 +504,6 @@ def categoria(genero):
         'peliculas.html',
         peliculas=peliculas
     )
-
 
 if __name__ == '__main__':
     app.run(port = 5000, debug = True)

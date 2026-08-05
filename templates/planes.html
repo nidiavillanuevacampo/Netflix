@@ -1,143 +1,160 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="crud-container">
-    <div class="crud-card">
+<div class="container py-4">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="page-title mb-0">Gestión de Planes de Suscripción</h2>
-            <button class="btn-agregar-registro" onclick="abrirModalAgregar()">
-                <i class="fa-solid fa-credit-card"></i> Agregar Plan
-            </button>
+    <h2 class="page-title text-center mb-5">
+        Elige tu plan de suscripción
+    </h2>
+
+    <div class="row justify-content-center">
+
+        {% for plan in Planes %}
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="card bg-dark text-white h-100 shadow-lg border-danger">
+
+                <div class="card-body text-center">
+
+                    <h3 class="text-danger">{{ plan[1] }}</h3>
+
+                    <h1 class="my-4">
+                        ${{ "%.2f"|format(plan[2]) }}
+                    </h1>
+
+                    <p>{{ plan[3] }}</p>
+
+                    <p>
+                        {{ plan[4] }} Pantallas
+                    </p>
+
+                    <button class="btn btn-danger w-100" onclick="seleccionarPlan(
+                            '{{ plan[0] }}',
+                            '{{ plan[1] }}',
+                            '{{ plan[2] }}'
+                        )">
+
+                        Seleccionar
+
+                    </button>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="table-responsive">
-            <table class="tabla-custom">
-                <thead>
-                    <tr>
-                        <th style="width: 10%;">ID</th>
-                        <th style="width: 25%;">Nombre del Plan</th>
-                        <th style="width: 20%;">Precio Mensual</th>
-                        <th style="width: 25%;">Calidad de Video</th>
-                        <th style="width: 10%;">Pantallas Simultáneas</th>
-                        <th style="width: 10%;">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for plan in Planes %}
-                    <tr>
-                        <td>{{ plan[0] }}</td>
-                        <td class="text-start font-weight-bold text-danger">{{ plan[1] }}</td>
-                        <td class="text-white-50">${{ "%.2f"|format(plan[2]) }} MXN</td>
-                        <td><span class="movie-meta-badge">{{ plan[3] }}</span></td>
-                        <td>{{ plan[4] }}</td>
-                        <td>
-                            <button class="btn-accion btn-accion-edit" title="Editar"
-                                onclick="abrirModalEditar('{{ plan[0] }}', '{{ plan[1]|escape }}', '{{ plan[2] }}', '{{ plan[3]|escape }}', '{{ plan[4] }}')">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <a href="/planes/eliminar/{{ plan[0] }}" class="btn-accion btn-accion-delete"
-                                title="Eliminar"
-                                onclick="return confirm('¿Estás seguro de que deseas eliminar el plan {{ plan[1] }}?')">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="6" class="text-center text-muted py-4">
-                            No hay planes de suscripción registrados.
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% endfor %}
 
     </div>
+
 </div>
 
-<!-- Ventana Modal para Agregar / Editar Plan -->
+
+<!-- MODAL -->
+
 <div id="modalPlan" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
+
     <div class="modal-container-custom" onclick="event.stopPropagation()">
 
-        <button type="button" class="btn-modal-cerrar" onclick="cerrarModal()">&times;</button>
+        <button class="btn-modal-cerrar" onclick="cerrarModal()">
+            &times;
+        </button>
 
-        <h3 id="modalTitulo" class="modal-titulo-custom">Agregar Plan</h3>
+        <h3 class="modal-titulo-custom">
+            Suscripción
+        </h3>
 
-        <form id="modalForm" action="/planes/agregar" method="POST">
+        <form action="/suscripcion/agregar" method="POST">
+
+            <input type="hidden" name="idPlan" id="idPlan">
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputNombre">Nombre del Plan</label>
-                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" placeholder="Ej. Premium"
-                    required autocomplete="off">
+
+                <label>Plan seleccionado</label>
+
+                <input type="text" id="nombrePlan" class="modal-input-custom" readonly>
+
             </div>
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputPrecio">Precio Mensual (MXN)</label>
-                <input type="number" step="0.01" id="inputPrecio" name="precio" class="modal-input-custom"
-                    placeholder="0.00" required autocomplete="off">
+
+                <label>Nombre completo</label>
+
+                <input type="text" name="nombre" class="modal-input-custom" required>
+
             </div>
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputCalidad">Calidad de Video</label>
-                <select id="inputCalidad" name="calidad" class="modal-input-custom" required>
-                    <option value="SD (480p)">SD (480p)</option>
-                    <option value="HD (708p)">HD (720p)</option>
-                    <option value="HD (1080p)" selected>HD (1080p)</option>
-                    <option value="Ultra HD (4K+HDR)">Ultra HD (4K+HDR)</option>
+
+                <label>Correo electrónico</label>
+
+                <input type="email" name="correo" class="modal-input-custom" required>
+
+            </div>
+
+            <div class="modal-form-group">
+
+                <label>Teléfono</label>
+
+                <input type="text" name="telefono" class="modal-input-custom" required>
+
+            </div>
+
+            <div class="modal-form-group">
+
+                <label>Método de pago</label>
+
+                <select name="metodo" class="modal-input-custom">
+
+                    <option>Tarjeta</option>
+                    <option>PayPal</option>
+
                 </select>
+
             </div>
 
-            <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputPantallas">Pantallas Simultáneas</label>
-                <input type="number" id="inputPantallas" name="pantallas" class="modal-input-custom" min="1" max="10"
-                    placeholder="Ej. 4" required autocomplete="off">
-            </div>
+            <button class="btn-modal-guardar">
 
-            <button type="submit" class="btn-modal-guardar">Guardar Datos</button>
+                Confirmar Suscripción
+
+            </button>
+
         </form>
+
     </div>
+
 </div>
 
 <script>
-    function abrirModalAgregar() {
-        const modal = document.getElementById('modalPlan');
-        const form = document.getElementById('modalForm');
-        const titulo = document.getElementById('modalTitulo');
 
-        form.reset();
-        form.action = '/planes/agregar';
-        titulo.innerText = 'Agregar Plan';
+    function seleccionarPlan(id, nombre) {
 
-        modal.style.display = 'flex';
-    }
+        document.getElementById("idPlan").value = id;
 
-    function abrirModalEditar(id, nombre, precio, calidad, pantallas) {
-        const modal = document.getElementById('modalPlan');
-        const form = document.getElementById('modalForm');
-        const titulo = document.getElementById('modalTitulo');
+        document.getElementById("nombrePlan").value = nombre;
 
-        form.action = '/planes/editar/' + id;
-        titulo.innerText = 'Editar Plan';
+        document.getElementById("modalPlan").style.display = "flex";
 
-        document.getElementById('inputNombre').value = nombre;
-        document.getElementById('inputPrecio').value = precio;
-        document.getElementById('inputCalidad').value = calidad;
-        document.getElementById('inputPantallas').value = pantallas;
-
-        modal.style.display = 'flex';
     }
 
     function cerrarModal() {
-        const modal = document.getElementById('modalPlan');
-        modal.style.display = 'none';
+
+        document.getElementById("modalPlan").style.display = "none";
+
     }
 
     function cerrarModalAlClicarFuera(event) {
-        if (event.target === document.getElementById('modalPlan')) {
+
+        if (event.target === document.getElementById("modalPlan")) {
+
             cerrarModal();
+
         }
+
     }
+
 </script>
+
 {% endblock %}
