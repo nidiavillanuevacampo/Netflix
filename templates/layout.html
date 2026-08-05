@@ -33,37 +33,22 @@
 
     {% if session.get('id_usuario') %}
     <footer class="footer-menu">
-        <a href="/home" class="{% if request.path == '/home' %}active{% endif %}">
-            <i class="fa-solid fa-house me-1"></i> Inicio
-        </a>
+        <a href="/home" class="{% if request.path == '/home' %}active{% endif %}">Inicio</a>
 
-        <a href="/peliculas_db" class="{% if request.path.startswith('/peliculas_db') %}active{% endif %}">
-            <i class="fa-solid fa-film me-1"></i> Películas
-        </a>
+        <a href="/peliculas_db" class="{% if request.path.startswith('/peliculas_db') %}active{% endif %}">Películas</a>
 
-        <a href="/peliculas" class="{% if request.path.startswith('/peliculas') %}active{% endif %}">
-            <i class="fa-solid fa-film me-1"></i> Categorías
-        </a>
+        <a href="/peliculas" class="{% if request.path.startswith('/peliculas') %}active{% endif %}">Categorías</a>
 
-        <a href="/generos" class="{% if request.path.startswith('/generos') %}active{% endif %}">
-            <i class="fa-solid fa-tags me-1"></i> Agregar Géneros
-        </a>
+        <a href="/generos" class="{% if request.path.startswith('/generos') %}active{% endif %}">Agregar Géneros</a>
 
-        <a href="/planes" class="{% if request.path.startswith('/planes') %}active{% endif %}">
-            <i class="fa-solid fa-credit-card me-1"></i> Planes
-        </a>
+        <a href="/planes" class="{% if request.path.startswith('/planes') %}active{% endif %}">Planes</a>
 
-        <a href="/usuarios" class="{% if request.path.startswith('/usuarios') %}active{% endif %}">
-            <i class="fa-solid fa-users me-1"></i> Usuarios
-        </a>
+        <a href="/usuarios" class="{% if request.path.startswith('/usuarios') %}active{% endif %}">Usuarios</a>
 
-        <a href="{{ url_for('logout') }}">
-            <i class="fa-solid fa-right-from-bracket me-1"></i> Salir
-        </a>
+        <a href="{{ url_for('logout') }}">Salir</a>
     </footer>
     {% endif %}
 
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

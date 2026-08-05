@@ -426,6 +426,19 @@ def eliminar_pelicula_db(id):
         cur.close()
     return redirect('/peliculas_db')
 
+@app.route('/peliculas')
+def peliculas():
+
+    if 'id_usuario' not in session:
+        return redirect('/login')
+
+    peliculas = obtener_populares()
+
+    return render_template(
+        'peliculas.html',
+        peliculas=peliculas
+    )
+
 @app.route('/categoria/<int:genero>')
 def categoria(genero):
     peliculas = obtener_por_genero(genero)
