@@ -493,17 +493,5 @@ def controlar_inactividad():
 
     session['ultimo_movimiento'] = datetime.now().isoformat()
 
-@app.route('/categoria/<int:genero>')
-def categoria(genero):
-    peliculas = obtener_por_genero(genero)
-
-    print("Género:", genero)
-    print("Películas:", peliculas)
-
-    return render_template(
-        'peliculas.html',
-        peliculas=peliculas
-    )
-
 if __name__ == '__main__':
     app.run(port = 5000, debug = True)
