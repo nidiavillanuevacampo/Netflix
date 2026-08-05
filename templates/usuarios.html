@@ -11,23 +11,32 @@
             <tr>
                 <th style="width: 45%;">Nombre</th>
                 <th style="width: 35%;">Usuario</th>
+                <th style="width: 10%;">Plan</th>
                 <th style="width: 20%;">Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for usuario in Usuarios %}
             <tr>
-                <td>{{ usuario[1] }}</td> <!-- nombre -->
-                <td>{{ usuario[2] }}</td> <!-- usuario -->
+                <td>{{ usuario[1] }}</td>
+                <td>{{ usuario[2] }}</td>
                 <td>
-                    <button class="btn-accion-editar"
-                        onclick="abrirModalEditar('{{ usuario[0] }}', '{{ usuario[1]|escape }}', '{{ usuario[3]|escape }}', '{{ usuario[2]|escape }}', '{{ usuario[4]|escape }}')">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                    <a href="/usuarios/eliminar/{{ usuario[0] }}" class="btn-accion-eliminar"
-                        onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ usuario[1] }}?')">
-                        <i class="fa-solid fa-xmark"></i>
-                    </a>
+                    {% if usuario[4] %}
+                    <span class="movie-meta-badge">
+                        {{ usuario[4] }}
+                    </span>
+                    {% else %}
+                    Sin plan
+                    {% endif %}
+                </td>
+                <button class="btn-accion-editar"
+                    onclick="abrirModalEditar('{{ usuario[0] }}', '{{ usuario[1]|escape }}', '{{ usuario[3]|escape }}', '{{ usuario[2]|escape }}', '{{ usuario[4]|escape }}')">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <a href="/usuarios/eliminar/{{ usuario[0] }}" class="btn-accion-eliminar"
+                    onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ usuario[1] }}?')">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
                 </td>
             </tr>
             {% endfor %}

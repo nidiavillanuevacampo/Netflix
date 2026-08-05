@@ -32,7 +32,6 @@ def inicio():
     peliculas = obtener_populares()
     banner = random.choice(peliculas) if peliculas else None
 
-    # Obtener películas locales de la base de datos MySQL
     cur = mysql.connection.cursor()
     try:
         cur.execute("""
@@ -108,7 +107,19 @@ def clientes():
     if 'id_usuario' not in session:
         return redirect('/login')
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM usuarios")
+    cur.execute("""
+    SELECT
+        u.idUsuario,
+        u.nombre,
+        u.usuario,
+        u.correo,
+        p.nombre AS plan
+    FROM usuarios u
+        LEFT JOIN suscripciones s
+            ON u.idUsuario = s.idU  suario
+        LEFT JOIN planes p
+            ON s.idPlan = p.idPlan
+    """)
     data = cur.fetchall()
     cur.close()
     return render_template("usuarios.html", Usuarios = data)
@@ -455,18 +466,14 @@ def logout():
 
 @app.before_request
 def controlar_inactividad():
-    # Evitar verificar inactividad en archivos estáticos, login y logout
     if request.path.startswith('/static') or request.path in ('/login', '/logout') or request.endpoint == 'static':
         return
 
-    # Si no ha iniciado sesión
     if 'id_usuario' not in session:
         return redirect('/login')
 
-    # Validar inactividad
     if 'ultimo_movimiento' in session:
         ultimo = datetime.fromisoformat(session['ultimo_movimiento'])
-        # Expira tras 2 minutos de inactividad
         if datetime.now() - ultimo > timedelta(minutes=2):
             if 'token' in session:
                 try:
