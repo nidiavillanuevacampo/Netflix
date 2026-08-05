@@ -35,7 +35,7 @@ def inicio():
     cur = mysql.connection.cursor()
     try:
         cur.execute("""
-            SELECT p.idPelicula, p.titulo, p.sinopsis, p.anio, p.duracion, p.imagen_url, g.nombre
+            SELECT p.idPelicula, p.titulo, p.sinopsis, p.año, p.duracion, p.imagen_url, g.nombre
             FROM peliculas p
             LEFT JOIN generos g ON p.idGenero = g.idGenero
         """)
@@ -337,15 +337,13 @@ def peliculas_db():
     if 'id_usuario' not in session:
         return redirect('/login')
     cur = mysql.connection.cursor()
-    # Hacemos un JOIN para obtener el nombre del género de la película
     cur.execute("""
-        SELECT p.idPelicula, p.titulo, p.sinopsis, p.anio, p.duracion, p.imagen_url, p.idGenero, g.nombre
+        SELECT p.idPelicula, p.titulo, p.sinopsis, p.año, p.duracion, p.imagen_url, p.idGenero, g.nombre
         FROM peliculas p
         LEFT JOIN generos g ON p.idGenero = g.idGenero
     """)
     peliculas = cur.fetchall()
     
-    # También obtenemos los géneros para el modal selector de agregar/editar
     cur.execute("SELECT idGenero, nombre FROM generos")
     generos = cur.fetchall()
     cur.close()
@@ -383,7 +381,6 @@ def agregar_pelicula_db():
         cur.close()
     return redirect('/peliculas_db')
 
-
 @app.route('/peliculas_db/editar/<int:id>', methods=['POST'])
 def editar_pelicula_db(id):
     if 'id_usuario' not in session:
@@ -415,7 +412,6 @@ def editar_pelicula_db(id):
         cur.close()
     return redirect('/peliculas_db')
 
-
 @app.route('/peliculas_db/eliminar/<int:id>')
 def eliminar_pelicula_db(id):
     if 'id_usuario' not in session:
@@ -429,11 +425,6 @@ def eliminar_pelicula_db(id):
     finally:
         cur.close()
     return redirect('/peliculas_db')
-
-
-@app.route('/peliculas/<id>')
-def peliculas(id):
-    return render_template('peliculas.html', ID= id)
 
 @app.route('/categoria/<int:genero>')
 def categoria(genero):

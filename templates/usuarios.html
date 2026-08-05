@@ -1,126 +1,220 @@
 {% extends "layout.html" %}
 {% block content %}
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <div class="tabla-usuarios-container">
 
     <button class="btn-agregar-usuario" onclick="abrirModalAgregar()">
         Agregar Usuario
     </button>
+
     <table class="tabla-usuarios">
         <thead>
             <tr>
-                <th style="width: 35%;">Nombre</th>
-                <th style="width: 15%;">Usuario</th>
-                <th style="width: 15%;">Plan</th>
-                <th style="width: 20%;">Acciones</th>
-            </tr>|
+                <th style="width:35%;">Nombre</th>
+                <th style="width:20%;">Usuario</th>
+                <th style="width:20%;">Plan</th>
+                <th style="width:25%;">Acciones</th>
+            </tr>
         </thead>
+
         <tbody>
+
             {% for usuario in Usuarios %}
+
             <tr>
+
                 <td>{{ usuario[1] }}</td>
+
                 <td>{{ usuario[2] }}</td>
+
                 <td>
                     {% if usuario[4] %}
                     <span class="movie-meta-badge">
                         {{ usuario[4] }}
                     </span>
                     {% else %}
-                    Sin plan
+                    <span class="text-muted">
+                        Sin plan
+                    </span>
                     {% endif %}
                 </td>
-                <button class="btn-accion-editar"
-                    onclick="abrirModalEditar('{{ usuario[0] }}', '{{ usuario[1]|escape }}', '{{ usuario[3]|escape }}', '{{ usuario[2]|escape }}', '{{ usuario[4]|escape }}')">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-                <a href="/usuarios/eliminar/{{ usuario[0] }}" class="btn-accion-eliminar"
-                    onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ usuario[1] }}?')">
-                    <i class="fa-solid fa-xmark"></i>
-                </a>
+
+                <td>
+
+                    <button class="btn-accion-editar" onclick="abrirModalEditar(
+                        '{{ usuario[0] }}',
+                        '{{ usuario[1]|escape }}',
+                        '{{ usuario[3]|escape }}',
+                        '{{ usuario[2]|escape }}'
+                        )">
+
+                        <i class="fa-solid fa-pen-to-square"></i>
+
+                    </button>
+
+                    <a href="/usuarios/eliminar/{{ usuario[0] }}" class="btn-accion-eliminar"
+                        onclick="return confirm('¿Estás seguro de eliminar a {{ usuario[1] }}?')">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </a>
+
                 </td>
+
             </tr>
+
             {% endfor %}
+
         </tbody>
+
     </table>
+
 </div>
+
+
 <div id="modalUsuario" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
+
     <div class="modal-container-custom" onclick="event.stopPropagation()">
 
-        <button type="button" class="btn-modal-cerrar" onclick="cerrarModal()">&times;</button>
+        <button type="button" class="btn-modal-cerrar" onclick="cerrarModal()">
+
+            &times;
+
+        </button>
 
         <div class="modal-logo-circulo">
-            <img src="{{ url_for('static', filename='images/upp.png') }}" alt="UPP Logo">
+
+            <img src="{{ url_for('static', filename='images/upp.png') }}">
+
         </div>
 
-        <h3 id="modalTitulo" class="modal-titulo-custom">Agregar Usuario</h3>
+        <h3 id="modalTitulo" class="modal-titulo-custom">
+
+            Agregar Usuario
+
+        </h3>
 
         <form id="modalForm" action="/usuarios/agregar" method="POST">
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputNombre">Nombre Completo</label>
-                <input type="text" id="inputNombre" name="nombre" class="modal-input-custom" required
-                    autocomplete="off">
+
+                <label class="modal-label-custom">
+
+                    Nombre Completo
+
+                </label>
+
+                <input id="inputNombre" name="nombre" class="modal-input-custom" required>
+
             </div>
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputCorreo">Correo</label>
-                <input type="email" id="inputCorreo" name="correo" class="modal-input-custom" required
-                    autocomplete="off">
+
+                <label class="modal-label-custom">
+
+                    Correo
+
+                </label>
+
+                <input type="email" id="inputCorreo" name="correo" class="modal-input-custom" required>
+
             </div>
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputUsuario">Usuario</label>
-                <input type="text" id="inputUsuario" name="usuario" class="modal-input-custom" required
-                    autocomplete="off">
+
+                <label class="modal-label-custom">
+
+                    Usuario
+
+                </label>
+
+                <input id="inputUsuario" name="usuario" class="modal-input-custom" required>
+
             </div>
 
             <div class="modal-form-group">
-                <label class="modal-label-custom" for="inputPassword">Contraseña</label>
+
+                <label class="modal-label-custom">
+
+                    Contraseña
+
+                </label>
+
                 <input type="password" id="inputPassword" name="password" class="modal-input-custom" required>
+
             </div>
-            <button type="submit" class="btn-modal-guardar">Guardar</button>
+
+            <button type="submit" class="btn-modal-guardar">
+
+                Guardar
+
+            </button>
+
         </form>
+
     </div>
+
 </div>
 
+
 <script>
+
     function abrirModalAgregar() {
-        const modal = document.getElementById('modalUsuario');
-        const form = document.getElementById('modalForm');
-        const titulo = document.getElementById('modalTitulo');
+
+        const modal = document.getElementById("modalUsuario");
+
+        const form = document.getElementById("modalForm");
 
         form.reset();
-        form.action = '/usuarios/agregar';
-        titulo.innerText = 'Agregar Usuario';
 
-        modal.style.display = 'flex';
+        form.action = "/usuarios/agregar";
+
+        document.getElementById("modalTitulo").innerText = "Agregar Usuario";
+
+        modal.style.display = "flex";
+
     }
 
-    function abrirModalEditar(id, nombre, correo, usuario, password) {
-        const modal = document.getElementById('modalUsuario');
-        const form = document.getElementById('modalForm');
-        const titulo = document.getElementById('modalTitulo');
+    function abrirModalEditar(id, nombre, correo, usuario) {
 
-        form.action = '/usuarios/editar/' + id;
-        titulo.innerText = 'Editar Usuario';
+        const modal = document.getElementById("modalUsuario");
 
-        document.getElementById('inputNombre').value = nombre;
-        document.getElementById('inputCorreo').value = correo;
-        document.getElementById('inputUsuario').value = usuario;
-        document.getElementById('inputPassword').value = password;
+        const form = document.getElementById("modalForm");
 
-        modal.style.display = 'flex';
+        form.action = "/usuarios/editar/" + id;
+
+        document.getElementById("modalTitulo").innerText = "Editar Usuario";
+
+        document.getElementById("inputNombre").value = nombre;
+
+        document.getElementById("inputCorreo").value = correo;
+
+        document.getElementById("inputUsuario").value = usuario;
+
+        document.getElementById("inputPassword").value = "";
+
+        modal.style.display = "flex";
+
     }
 
     function cerrarModal() {
-        const modal = document.getElementById('modalUsuario');
-        modal.style.display = 'none';
+
+        document.getElementById("modalUsuario").style.display = "none";
+
     }
 
     function cerrarModalAlClicarFuera(event) {
-        if (event.target === document.getElementById('modalUsuario')) {
+
+        if (event.target === document.getElementById("modalUsuario")) {
+
             cerrarModal();
+
         }
+
     }
+
 </script>
+
 {% endblock %}
