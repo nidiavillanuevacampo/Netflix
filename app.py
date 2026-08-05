@@ -116,7 +116,7 @@ def clientes():
         p.nombre AS plan
     FROM usuarios u
         LEFT JOIN suscripciones s
-            ON u.idUsuario = s.idU  suario
+            ON u.idUsuario = s.idUsuario
         LEFT JOIN planes p
             ON s.idPlan = p.idPlan
     """)
