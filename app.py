@@ -322,7 +322,7 @@ def agregar_pelicula_db():
         return redirect('/login')
     titulo = request.form.get('titulo')
     sinopsis = request.form.get('sinopsis')
-    anio = request.form.get('anio')
+    anio = request.form.get('año')
     duracion = request.form.get('duracion')
     imagen_url = request.form.get('imagen_url')
     idGenero = request.form.get('idGenero')
@@ -334,7 +334,7 @@ def agregar_pelicula_db():
     try:
         cur.execute(
             """
-            INSERT INTO peliculas (titulo, sinopsis, anio, duracion, imagen_url, idGenero)
+            INSERT INTO peliculas (titulo, sinopsis, año, duracion, imagen_url, idGenero)
             VALUES (%s, %s, %s, %s, %s, %s)
             """,
             (titulo, sinopsis, anio, duracion, imagen_url, idGenero)
@@ -352,7 +352,7 @@ def editar_pelicula_db(id):
         return redirect('/login')
     titulo = request.form.get('titulo')
     sinopsis = request.form.get('sinopsis')
-    anio = request.form.get('anio')
+    año = request.form.get('año')
     duracion = request.form.get('duracion')
     imagen_url = request.form.get('imagen_url')
     idGenero = request.form.get('idGenero')
@@ -365,10 +365,10 @@ def editar_pelicula_db(id):
         cur.execute(
             """
             UPDATE peliculas 
-            SET titulo = %s, sinopsis = %s, anio = %s, duracion = %s, imagen_url = %s, idGenero = %s 
+            SET titulo = %s, sinopsis = %s, año = %s, duracion = %s, imagen_url = %s, idGenero = %s 
             WHERE idPelicula = %s
             """,
-            (titulo, sinopsis, anio, duracion, imagen_url, idGenero, id)
+            (titulo, sinopsis, año, duracion, imagen_url, idGenero, id)
         )
         mysql.connection.commit()
     except Exception as e:

@@ -86,8 +86,8 @@
                         placeholder="Ej. El Origen" required autocomplete="off">
                 </div>
                 <div class="col-md-4 modal-form-group">
-                    <label class="modal-label-custom" for="inputAnio">Año</label>
-                    <input type="number" id="inputAnio" name="anio" class="modal-input-custom" min="1880" max="2100"
+                    <label class="modal-label-custom" for="inputAño">Año</label>
+                    <input type="number" id="inputAño" name="año" class="modal-input-custom" min="1880" max="2100"
                         placeholder="2010" required autocomplete="off">
                 </div>
             </div>
@@ -140,7 +140,7 @@
         modal.style.display = 'flex';
     }
 
-    function abrirModalEditar(id, titulo, sinopsis, anio, duracion, imagen_url, idGenero) {
+    function abrirModalEditar(id, titulo, sinopsis, año, duracion, imagen_url, idGenero) {
         const modal = document.getElementById('modalPelicula');
         const form = document.getElementById('modalForm');
         const modalTitulo = document.getElementById('modalTitulo');
@@ -150,7 +150,7 @@
 
         document.getElementById('inputTitulo').value = titulo;
         document.getElementById('inputSinopsis').value = sinopsis;
-        document.getElementById('inputAnio').value = anio;
+        document.getElementById('inputAño').value = año;
         document.getElementById('inputDuracion').value = duracion;
         document.getElementById('inputImagenUrl').value = imagen_url;
         document.getElementById('inputGenero').value = idGenero || "";
