@@ -26,9 +26,7 @@
             <tr>
 
                 <td>{{ usuario[1] }}</td>
-
                 <td>{{ usuario[2] }}</td>
-
                 <td>
                     {% if usuario[4] %}
                     <span class="movie-meta-badge">
@@ -42,33 +40,23 @@
                 </td>
 
                 <td>
-
                     <button class="btn-accion-editar" onclick="abrirModalEditar(
                         '{{ usuario[0] }}',
                         '{{ usuario[1]|escape }}',
                         '{{ usuario[3]|escape }}',
                         '{{ usuario[2]|escape }}'
                         )">
-
                         <i class="fa-solid fa-pen-to-square"></i>
-
                     </button>
 
                     <a href="/usuarios/eliminar/{{ usuario[0] }}" class="btn-accion-eliminar"
                         onclick="return confirm('¿Estás seguro de eliminar a {{ usuario[1] }}?')">
-
                         <i class="fa-solid fa-trash"></i>
-
                     </a>
-
                 </td>
-
             </tr>
-
             {% endfor %}
-
         </tbody>
-
     </table>
 
 </div>
@@ -79,81 +67,51 @@
     <div class="modal-container-custom" onclick="event.stopPropagation()">
 
         <button type="button" class="btn-modal-cerrar" onclick="cerrarModal()">
-
             &times;
-
         </button>
 
         <div class="modal-logo-circulo">
-
             <img src="{{ url_for('static', filename='images/upp.png') }}">
-
         </div>
 
         <h3 id="modalTitulo" class="modal-titulo-custom">
-
             Agregar Usuario
-
         </h3>
 
         <form id="modalForm" action="/usuarios/agregar" method="POST">
 
             <div class="modal-form-group">
-
                 <label class="modal-label-custom">
-
                     Nombre Completo
-
                 </label>
-
                 <input id="inputNombre" name="nombre" class="modal-input-custom" required>
-
             </div>
 
             <div class="modal-form-group">
-
                 <label class="modal-label-custom">
-
                     Correo
-
                 </label>
-
                 <input type="email" id="inputCorreo" name="correo" class="modal-input-custom" required>
-
             </div>
 
             <div class="modal-form-group">
-
                 <label class="modal-label-custom">
-
                     Usuario
-
                 </label>
-
                 <input id="inputUsuario" name="usuario" class="modal-input-custom" required>
-
             </div>
 
             <div class="modal-form-group">
-
                 <label class="modal-label-custom">
-
                     Contraseña
-
                 </label>
-
                 <input type="password" id="inputPassword" name="password" class="modal-input-custom" required>
-
             </div>
 
             <button type="submit" class="btn-modal-guardar">
-
                 Guardar
-
             </button>
-
         </form>
-
     </div>
 
 </div>
@@ -164,15 +122,10 @@
     function abrirModalAgregar() {
 
         const modal = document.getElementById("modalUsuario");
-
         const form = document.getElementById("modalForm");
-
         form.reset();
-
         form.action = "/usuarios/agregar";
-
         document.getElementById("modalTitulo").innerText = "Agregar Usuario";
-
         modal.style.display = "flex";
 
     }
@@ -180,19 +133,12 @@
     function abrirModalEditar(id, nombre, correo, usuario) {
 
         const modal = document.getElementById("modalUsuario");
-
         const form = document.getElementById("modalForm");
-
         form.action = "/usuarios/editar/" + id;
-
         document.getElementById("modalTitulo").innerText = "Editar Usuario";
-
         document.getElementById("inputNombre").value = nombre;
-
         document.getElementById("inputCorreo").value = correo;
-
         document.getElementById("inputUsuario").value = usuario;
-
         document.getElementById("inputPassword").value = "";
 
         modal.style.display = "flex";
@@ -200,21 +146,15 @@
     }
 
     function cerrarModal() {
-
         document.getElementById("modalUsuario").style.display = "none";
-
     }
 
     function cerrarModalAlClicarFuera(event) {
 
         if (event.target === document.getElementById("modalUsuario")) {
-
             cerrarModal();
-
         }
-
     }
-
 </script>
 
 {% endblock %}

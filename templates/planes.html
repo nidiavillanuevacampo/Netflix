@@ -12,13 +12,9 @@
         {% for plan in Planes %}
 
         <div class="col-lg-4 col-md-6 mb-4">
-
             <div class="card bg-dark text-white h-100 shadow-lg border-danger">
-
                 <div class="card-body text-center">
-
                     <h3 class="text-danger">{{ plan[1] }}</h3>
-
                     <h1 class="my-4">
                         ${{ "%.2f"|format(plan[2]) }}
                     </h1>
@@ -34,30 +30,18 @@
                             '{{ plan[1] }}',
                             '{{ plan[2] }}'
                         )">
-
                         Seleccionar
-
                     </button>
-
                 </div>
-
             </div>
-
         </div>
-
         {% endfor %}
-
     </div>
-
 </div>
-
-
-<!-- MODAL -->
 
 <div id="modalPlan" class="modal-overlay-custom" onclick="cerrarModalAlClicarFuera(event)">
 
     <div class="modal-container-custom" onclick="event.stopPropagation()">
-
         <button class="btn-modal-cerrar" onclick="cerrarModal()">
             &times;
         </button>
@@ -67,92 +51,59 @@
         </h3>
 
         <form action="/suscripcion/agregar" method="POST">
-
             <input type="hidden" name="idPlan" id="idPlan">
 
             <div class="modal-form-group">
-
                 <label>Plan seleccionado</label>
-
                 <input type="text" id="nombrePlan" class="modal-input-custom" readonly>
-
             </div>
 
             <div class="modal-form-group">
-
                 <label>Nombre completo</label>
-
                 <input type="text" name="nombre" class="modal-input-custom" required>
-
             </div>
 
             <div class="modal-form-group">
-
                 <label>Correo electrónico</label>
-
                 <input type="email" name="correo" class="modal-input-custom" required>
-
             </div>
 
             <div class="modal-form-group">
-
                 <label>Teléfono</label>
-
                 <input type="text" name="telefono" class="modal-input-custom" required>
-
             </div>
 
             <div class="modal-form-group">
-
                 <label>Método de pago</label>
-
                 <select name="metodo" class="modal-input-custom">
-
                     <option>Tarjeta</option>
                     <option>PayPal</option>
-
                 </select>
-
             </div>
 
             <button class="btn-modal-guardar">
-
                 Confirmar Suscripción
-
             </button>
-
         </form>
-
     </div>
-
 </div>
 
 <script>
-
     function seleccionarPlan(id, nombre) {
-
         document.getElementById("idPlan").value = id;
-
         document.getElementById("nombrePlan").value = nombre;
-
         document.getElementById("modalPlan").style.display = "flex";
-
     }
 
     function cerrarModal() {
-
         document.getElementById("modalPlan").style.display = "none";
-
     }
 
     function cerrarModalAlClicarFuera(event) {
 
         if (event.target === document.getElementById("modalPlan")) {
-
             cerrarModal();
-
         }
-
     }
 
 </script>

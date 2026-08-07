@@ -104,26 +104,26 @@ def login():
 
 @app.route('/usuarios')
 def clientes():
+
     if 'id_usuario' not in session:
         return redirect('/login')
+
     cur = mysql.connection.cursor()
+
     cur.execute("""
-    SELECT
-        u.idUsuario,
-        u.nombre,
-        u.usuario,
-        u.correo,
-        p.nombre AS plan
-    FROM usuarios u
-        LEFT JOIN suscripciones s
-            ON u.idUsuario = s.idUsuario
+        SELECT
+            u.idUsuario,
+            u.nombre,
+            u.usuario,
+            u.correo,
+            p.nombre AS plan
+        FROM usuarios u
         LEFT JOIN planes p
-            ON s.idPlan = p.idPlan
+            ON u.idPlan = p.idPlan
     """)
     data = cur.fetchall()
     cur.close()
-    return render_template("usuarios.html", Usuarios = data)
-
+    return render_template("usuarios.html", Usuarios=data)
 
 @app.route('/usuarios/agregar', methods=['POST'])
 def agregar_usuario():
@@ -272,65 +272,30 @@ def agregar_suscripcion():
     if 'id_usuario' not in session:
         return redirect('/login')
 
-    idUsuario = session['id_usuario']
+    id_plan = request.form.get('idPlan')
 
-    idPlan = request.form.get('idPlan')
-    nombre = request.form.get('nombre')
-    correo = request.form.get('correo')
-    telefono = request.form.get('telefono')
-    metodo = request.form.get('metodo')
-
-    fecha = datetime.now()
+    if not id_plan:
+        return redirect('/planes')
 
     cur = mysql.connection.cursor()
 
     try:
-
         cur.execute("""
-        INSERT INTO suscripciones
-        (
-            idUsuario,
-            idPlan,
-            nombre,
-            correo,
-            telefono,
-            metodoPago,
-            fecha
-        )
-
-        VALUES
-        (
-            %s,
-            %s,
-            %s,
-            %s,
-            %s,
-            %s,
-            %s
-        )
-        """,
-
-        (
-            idUsuario,
-            idPlan,
-            nombre,
-            correo,
-            telefono,
-            metodo,
-            fecha
-        ))
+            UPDATE usuarios
+            SET idPlan = %s
+            WHERE idUsuario = %s
+        """, (id_plan, session['id_usuario']))
 
         mysql.connection.commit()
 
     except Exception as e:
-
-        print(e)
+        print("Error al seleccionar plan:", e)
+        mysql.connection.rollback()
 
     finally:
-
         cur.close()
 
-    return redirect('/planes')
+    return redirect('/suscripciones')
 
 @app.route('/peliculas_db')
 def peliculas_db():
@@ -478,7 +443,7 @@ def controlar_inactividad():
 
     if 'ultimo_movimiento' in session:
         ultimo = datetime.fromisoformat(session['ultimo_movimiento'])
-        if datetime.now() - ultimo > timedelta(minutes=2):
+        if datetime.now() - ultimo > timedelta(minutes=3):
             if 'token' in session:
                 try:
                     cur = mysql.connection.cursor()
