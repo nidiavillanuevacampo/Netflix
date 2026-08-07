@@ -295,7 +295,7 @@ def agregar_suscripcion():
     finally:
         cur.close()
 
-    return redirect('/suscripciones')
+    return redirect('/usuarios')
 
 @app.route('/peliculas_db')
 def peliculas_db():
